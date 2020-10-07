@@ -12,26 +12,29 @@ attributenames = data.row_values(0, 0, 9)
 
 X = np.empty((8760, 9))
 
-j = 0
-#for i, col_id in enumerate(range(0, 9)):
-#    X[:, i] = np.asarray(data.col_values(col_id, 1, 8761))
+#Add xlsx file to matrix X
 for i in range(0, 9):
     X[:, i] = np.asarray(data.col_values(i, 1, 8761))
 
 
 initial_storage = 0
 consump = np.sum(X[:,1])
+#find total production
 prod = X[:,2] + X[:,3]
+#find how much we need to scale cunsumption timeseries
 diff = actual_consump/consump
 print(consump, diff)
+#scale timeseries
 consump =  diff * X[:,1]
+#find how much we need to scale production
 diff2 = actual_consump / np.sum(prod)
+#scale production
 goal_prodseries = prod * diff2
-
+#make time series over storing potential
 storing_potential = goal_prodseries - consump
 
 storage = np.zeros((8760))
-
+#sum storage potential to storage
 for i in range(len(prod)):
     if i == 0:
         storage[i] = storing_potential[i]
