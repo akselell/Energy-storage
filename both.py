@@ -4,8 +4,9 @@ import matplotlib.pyplot as plt
 
 datas = ['./Cyprus_timeseries_data.xlsx', './Aeroe_timeseries_data.xlsx']
 
+Islands = ['Cyprus', 'Aeroe']
 actual_consumps = [18390204990, 166076400] 
-
+storage_needs = []
 
 #for x, actual_consump in datas, actual_consumps:
 for x, actual_consump in zip(datas, actual_consumps):
@@ -57,6 +58,7 @@ for x, actual_consump in zip(datas, actual_consumps):
 
     print(f"Max storing: {round(max(storing_potential))}kW, Max output: {round(abs(min(storing_potential)))}kW")
 
+    storage_needs.append(max(storage))
 
     plt.plot(X[:,0], storage)
-    plt.show()
+    #plt.show()
