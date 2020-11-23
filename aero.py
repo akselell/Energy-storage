@@ -23,7 +23,7 @@ consump = np.sum(X[:,1])
 prod = X[:,2] + X[:,3]
 #find how much we need to scale cunsumption timeseries
 diff = actual_consump/consump
-print(consump, diff)
+#print(consump, diff)
 #scale timeseries
 consump =  diff * X[:,1]
 #find how much we need to scale production
@@ -42,6 +42,20 @@ for i in range(len(prod)):
         storage[i] = storage[i-1] + storing_potential[i]
 
 
+new_solar = X[:,2] * diff2
+
+area_per_kW = 10
+needed_power = max(new_solar)
+
+number_of_systems = area_per_kW*needed_power
+price = number_of_systems * 50000
+
+print(number_of_systems)
+
+print()
+
+
+"""
 minimum = min(storage)
 print(abs(minimum))
 storage += abs(minimum)
@@ -52,3 +66,4 @@ print(f"Max storing: {round(max(storing_potential))}kW, Max output: {round(abs(m
 
 plt.plot(X[:,0], storage)
 plt.show()
+"""

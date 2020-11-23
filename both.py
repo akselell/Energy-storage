@@ -7,15 +7,13 @@ datas = ['./Cyprus_timeseries_data.xlsx', './Aeroe_timeseries_data.xlsx']
 Islands = ['Cyprus', 'Aeroe']
 actual_consumps = [18390204990, 166076400] 
 storage_needs = []
+flott = []
 
 #for x, actual_consump in datas, actual_consumps:
 for x, actual_consump in zip(datas, actual_consumps):
     print(x, actual_consump)
 
     data = xlrd.open_workbook(x).sheet_by_index(0)
-
-    #actual_consump = 31773160
-    #actual_consump = 167239.4
 
     attributenames = data.row_values(0, 0, 9)
 
@@ -25,8 +23,6 @@ for x, actual_consump in zip(datas, actual_consumps):
     for i in range(0, 9):
         X[:, i] = np.asarray(data.col_values(i, 1, 8761))
 
-
-    initial_storage = 0
     consump = np.sum(X[:,1])
     #find total production
     prod = X[:,2] + X[:,3]
@@ -60,5 +56,32 @@ for x, actual_consump in zip(datas, actual_consumps):
 
     storage_needs.append(max(storage))
 
-    plt.plot(X[:,0], storage)
-    #plt.show()
+    flott.append(storing_potential)
+
+    plt.plot(X[:,0], storage/1000)
+    plt.title('Storage')
+    plt.ylabel('MWh')
+    plt.xlabel('Hour')
+    plt.show()
+
+start = 3850
+stop = 4000
+
+plt.plot(X[start:stop,0], goal_prodseries[start:stop]/1000)
+plt.plot(X[start:stop,0], consump[start:stop]/1000)
+#plt.legend(['goal_prodseries','consump','storing_potential'])
+plt.legend(['Real_prodseries','Real_consumpseries'])
+plt.ylabel('MW')
+plt.xlabel('Hour')
+#plt.show()
+plt.plot(X[start:stop,0], storing_potential[start:stop]/1000)
+plt.plot(X[start:stop,0], np.zeros((stop-start)))
+plt.legend(['Storage_potential'])
+plt.ylabel('MW')
+plt.xlabel('Hour')
+plt.show()
+plt.plot(X[start:stop,0], storage[start:stop])
+#plt.show()
+#plt.legend(['storing_potential'])
+
+print(diff2)
